@@ -1,0 +1,18 @@
+# Excluded Datasets
+data/A_DeviceMotion_data/
+data/PAMAP2_Dataset/
+
+# Jupyter Checkpoints
+.ipynb_checkpoints/
+
+# Python Cache & Environments
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+env/
+venv/
+
+# OS Specific
+.DS_Store
+Thumbs.db
