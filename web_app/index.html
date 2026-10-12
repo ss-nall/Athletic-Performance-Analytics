@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Athlete Shield</title>
+  <meta name="description" content="Professional multimodal sports injury prediction, ACWR periodization, counterfactual simulator, and biomechanical sensor diagnostics.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Top App Navigation Bar -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand-wrapper">
+        <div class="brand-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <path d="m9 12 2 2 4-4"/>
+          </svg>
+        </div>
+        <div>
+          <div class="brand-title">
+            Athlete Shield
+            <span class="brand-badge">Triple-Model AI</span>
+          </div>
+          <div class="brand-subtitle">Clinical Sports Science, Biomechanical IMU Fusion & Load Decision Support</div>
+        </div>
+      </div>
+
+      <nav class="nav-tabs" aria-label="Application Tabs">
+        <button id="tab-questionnaire" class="nav-tab-btn active" onclick="switchMainTab('questionnaire')">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Diagnostics
+        </button>
+        <button id="tab-simulator" class="nav-tab-btn" onclick="switchMainTab('simulator')">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          What-If Simulator
+        </button>
+        <button id="tab-waveform" class="nav-tab-btn" onclick="switchMainTab('waveform')">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          Sensor Waveforms
+        </button>
+        <button id="tab-pitch" class="nav-tab-btn" onclick="switchMainTab('pitch')">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="12" x2="21" y2="12"/><circle cx="12" cy="12" r="3"/></svg>
+          Squad Pitch View
+        </button>
+        <button id="tab-history" class="nav-tab-btn" onclick="switchMainTab('history')">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Micro-Cycle Trends
+        </button>
+        <button id="tab-csv" class="nav-tab-btn" onclick="switchMainTab('csv')">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          CSV Ingestion
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main-wrapper">
+
+    <!-- Top 4-KPI Multi-Model Suite Strip -->
+    <section class="models-suite-strip" aria-label="Model Suite Overview">
+      <div class="model-kpi-card b">
+        <div>
+          <div class="kpi-title">Model B • Acute Injury Risk</div>
+          <div id="kpi-acute-val" class="kpi-val" style="color: var(--color-low);">12%</div>
+          <div id="kpi-acute-sub" class="kpi-sub" style="color: var(--color-low);">Low Risk (Cleared)</div>
+        </div>
+        <div style="text-align: right; font-size: 0.72rem; color: var(--text-subtle);">
+          Calibrated XGBoost<br>Platt Sigmoid (5-Fold)
+        </div>
+      </div>
+
+      <div class="model-kpi-card a">
+        <div>
+          <div class="kpi-title">Model A • Pre-Season Risk</div>
+          <div id="kpi-season-val" class="kpi-val" style="color: var(--accent-indigo);">24%</div>
+          <div class="kpi-sub">Next-Season Probability</div>
+        </div>
+        <div style="text-align: right; font-size: 0.72rem; color: var(--text-subtle);">
+          Random Forest<br>Physical Screening
+        </div>
+      </div>
+
+      <div class="model-kpi-card c">
+        <div>
+          <div class="kpi-title">Model C • Expected Downtime</div>
+          <div id="kpi-downtime-val" class="kpi-val" style="color: var(--color-moderate);">14.2 d</div>
+          <div class="kpi-sub">Estimated Sidelined Days</div>
+        </div>
+        <div style="text-align: right; font-size: 0.72rem; color: var(--text-subtle);">
+          Log-Target Regressor<br>R2: 0.74 Group Split
+        </div>
+      </div>
+
+      <div class="model-kpi-card ceiling">
+        <div>
+          <div class="kpi-title">Safe Workload Ceiling</div>
+          <div id="kpi-ceiling-val" class="kpi-val" style="color: var(--accent-teal);">15.2 h</div>
+          <div id="kpi-ceiling-sub" class="kpi-sub" style="color: var(--color-low);">+4.2h Safe Headroom</div>
+        </div>
+        <div style="text-align: right; font-size: 0.72rem; color: var(--text-subtle);">
+          ACWR ≤ 1.35 Barrier<br>Optimization Engine
+        </div>
+      </div>
+    </section>
+
+
+    <!-- =====================================================================
+         WORKSPACE 1: GUIDED QUESTIONNAIRE & LIVE RISK DASHBOARD
+         ===================================================================== -->
+    <div id="view-questionnaire" style="display: grid; grid-template-columns: 1.25fr 0.95fr; gap: 1.5rem; align-items: start;">
+
+      <!-- LEFT: Screening with Anatomical Human Silhouette -->
+      <section class="glass-card" aria-label="Athlete Data Input">
+        <div class="card-header">
+          <h2 class="card-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+            Athlete Diagnostics & Kinetic Screening
+          </h2>
+          <span style="font-size: 0.74rem; color: var(--text-subtle);">Population Baseline Auto-Imputation</span>
+        </div>
+
+        <div class="card-body">
+              <!-- Dynamic Feature Completion Meter -->
+              <div class="completion-container" style="margin-bottom: 1.25rem;">
+                <div class="completion-header">
+                  <span class="completion-label">Feature Input Coverage</span>
+                  <span id="completion-text" class="completion-status">7 / 10 Essential Features Set</span>
+                </div>
+                <div class="progress-track">
+                  <div id="completion-bar" class="progress-fill" style="width: 70%;"></div>
+                </div>
+              </div>
+
+              <!-- Wizard Step Navigation Tabs -->
+              <!-- Wizard Step Navigation Tabs -->
+              <nav class="step-tabs" aria-label="Form Steps">
+                <button id="step-tab-1" class="step-tab active" onclick="switchStep(1)">
+                  <span class="step-number" id="step-num-1">1</span>
+                  <span>1. Workload</span>
+                </button>
+                <button id="step-tab-2" class="step-tab" onclick="switchStep(2)">
+                  <span class="step-number" id="step-num-2">2</span>
+                  <span>2. Joint Screening</span>
+                </button>
+                <button id="step-tab-3" class="step-tab" onclick="switchStep(3)">
+                  <span class="step-number" id="step-num-3">3</span>
+                  <span>3. Wearables</span>
+                </button>
+                <button id="step-tab-4" class="step-tab" onclick="switchStep(4)">
+                  <span class="step-number" id="step-num-4">4</span>
+                  <span>4. IMU Sensors</span>
+                </button>
+              </nav>
+
+              <!-- Step 1: Workload & Training Volume -->
+              <div id="step-1" class="form-section active">
+                <div class="stage-inquiry-box">
+                  <div class="stage-inquiry-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  </div>
+                  <div>
+                    <div class="stage-inquiry-title">Stage 1 • Training Workload & Match Periodization</div>
+                    <div class="stage-inquiry-desc">What is the athlete's cumulative physical training volume, perceived session intensity, and scheduled recovery window for the current microcycle?</div>
+                  </div>
+                </div>
+
+                <div class="stage-pills-row">
+                  <span class="stage-pills-label">Quick Volume Presets</span>
+                  <div class="stage-quick-pills">
+                    <button type="button" class="stage-chip-btn" onclick="selectLoadPreset(8, 4, this)">🌱 Deload (8h • RPE 4)</button>
+                    <button type="button" class="stage-chip-btn active" onclick="selectLoadPreset(11, 5, this)">⚡ Standard (11h • RPE 5)</button>
+                    <button type="button" class="stage-chip-btn" onclick="selectLoadPreset(16, 7, this)">🔥 Intensive Build (16h • RPE 7)</button>
+                    <button type="button" class="stage-chip-btn" onclick="selectLoadPreset(22, 9, this)">🚨 Congested Spike (22h • RPE 9)</button>
+                  </div>
+                </div>
+
+                <div class="tactile-slider-group" id="group-Training_Hours_Per_Week">
+                  <div class="tactile-slider-header">
+                    <span class="tactile-label">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                      Weekly Training Hours
+                    </span>
+                    <span id="badge-hours" class="tactile-pill-val">11.0 hrs</span>
+                  </div>
+                  <div class="tactile-slider-track-wrap">
+                    <div class="safety-corridor-bar"></div>
+                    <div id="fill-Training_Hours_Per_Week" class="active-load-fill" style="width: 32%;"></div>
+                    <input type="range" id="inp-Training_Hours_Per_Week" class="custom-tactile-range" min="2" max="30" step="0.5" value="11" oninput="updateTactilePill('hours', this.value, 'hrs', 'Training_Hours_Per_Week', 2, 30); handleInputChange()">
+                    <div id="pill-Training_Hours_Per_Week" class="floating-thumb-pill" style="left: 32%;">11.0 hrs</div>
+                  </div>
+                  <div class="slider-zones-legend">
+                    <span style="color: var(--color-low);">Safe Adaptation (6–14h)</span>
+                    <span style="color: var(--color-moderate);">Caution Zone (15–18h)</span>
+                    <span style="color: var(--color-high);">Deload Spike (&gt;18h)</span>
+                  </div>
+                </div>
+
+                <div class="tactile-slider-group" id="group-Training_Intensity">
+                  <div class="tactile-slider-header">
+                    <span class="tactile-label">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                      Training Intensity (Session RPE)
+                    </span>
+                    <span id="badge-intensity" class="tactile-pill-val">5 / 10</span>
+                  </div>
+                  <div class="tactile-slider-track-wrap">
+                    <div class="safety-corridor-bar"></div>
+                    <div id="fill-Training_Intensity" class="active-load-fill" style="width: 44%;"></div>
+                    <input type="range" id="inp-Training_Intensity" class="custom-tactile-range" min="1" max="10" step="1" value="5" oninput="updateTactilePill('intensity', this.value, '/10', 'Training_Intensity', 1, 10); handleInputChange()">
+                    <div id="pill-Training_Intensity" class="floating-thumb-pill" style="left: 44%;">RPE 5/10</div>
+                  </div>
+                  <div class="slider-zones-legend">
+                    <span style="color: var(--color-low);">Recovery (1–4)</span>
+                    <span style="color: var(--primary);">Target Stimulus (5–7)</span>
+                    <span style="color: var(--color-high);">Maximal Match (8–10)</span>
+                  </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+                  <div class="form-group">
+                    <label class="form-label" for="inp-Recovery_Days_Per_Week">
+                      Scheduled Recovery Days
+                      <span id="recovery-hint" style="font-size: 0.72rem; color: var(--color-low); font-weight: 700;">Safe Buffer</span>
+                    </label>
+                    <div class="stage-quick-pills" style="margin-top: 0.2rem;">
+                      <button type="button" class="stage-chip-btn" onclick="selectRecoveryDays(0, this)">0 Days</button>
+                      <button type="button" class="stage-chip-btn" onclick="selectRecoveryDays(1, this)">1 Day</button>
+                      <button type="button" class="stage-chip-btn active" onclick="selectRecoveryDays(2, this)">2 Days</button>
+                      <button type="button" class="stage-chip-btn" onclick="selectRecoveryDays(3, this)">3 Days</button>
+                      <button type="button" class="stage-chip-btn" onclick="selectRecoveryDays(4, this)">4+ Days</button>
+                    </div>
+                    <input type="hidden" id="inp-Recovery_Days_Per_Week" value="2">
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="inp-Match_Count_Per_Week">
+                      Matches / Fixtures This Week
+                      <span id="match-hint" style="font-size: 0.72rem; color: var(--primary); font-weight: 700;">Standard</span>
+                    </label>
+                    <div class="stage-quick-pills" style="margin-top: 0.2rem;">
+                      <button type="button" class="stage-chip-btn" onclick="selectMatchCount(0, this)">0 (Train Only)</button>
+                      <button type="button" class="stage-chip-btn" onclick="selectMatchCount(1, this)">1 Match</button>
+                      <button type="button" class="stage-chip-btn active" onclick="selectMatchCount(2, this)">2 Matches</button>
+                      <button type="button" class="stage-chip-btn" onclick="selectMatchCount(3, this)">3+ (Congested)</button>
+                    </div>
+                    <input type="hidden" id="inp-Match_Count_Per_Week" value="2">
+                  </div>
+                </div>
+
+                <div class="wizard-footer">
+                  <span style="font-size: 0.76rem; color: var(--text-subtle);">Stage 1 of 4: Workload Periodization Completed</span>
+                  <button class="btn btn-primary" onclick="switchStep(2)">
+                    Next: Joint Screening
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Step 2: Subjective Wellness & Screening -->
+              <div id="step-2" class="form-section">
+                <div class="stage-inquiry-box">
+                  <div class="stage-inquiry-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                  </div>
+                  <div>
+                    <div class="stage-inquiry-title">Stage 2 • Neuromuscular Fatigue & Joint Screening</div>
+                    <div class="stage-inquiry-desc">How are the athlete's subjective exhaustion, knee kinetic stability, and bilateral limb load distribution following recent sessions?</div>
+                  </div>
+                </div>
+
+                <div class="tactile-slider-group" id="group-Fatigue_Score">
+                  <div class="tactile-slider-header">
+                    <span class="tactile-label">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                      Perceived Fatigue Level
+                    </span>
+                    <span id="badge-fatigue" class="tactile-pill-val">5 / 10</span>
+                  </div>
+                  <div class="stage-quick-pills" style="margin-bottom: 0.6rem;">
+                    <button type="button" class="stage-chip-btn" onclick="selectFatiguePreset(2, this)">⚡ Fresh & Primed (2/10)</button>
+                    <button type="button" class="stage-chip-btn active" onclick="selectFatiguePreset(5, this)">⚖️ Normal Training Fatigue (5/10)</button>
+                    <button type="button" class="stage-chip-btn" onclick="selectFatiguePreset(8, this)">⚠️ Neuromuscular Exhaustion (8/10)</button>
+                  </div>
+                  <div class="tactile-slider-track-wrap">
+                    <div class="safety-corridor-bar"></div>
+                    <div id="fill-Fatigue_Score" class="active-load-fill" style="width: 44%;"></div>
+                    <input type="range" id="inp-Fatigue_Score" class="custom-tactile-range" min="1" max="10" step="1" value="5" oninput="updateTactilePill('fatigue', this.value, '/10', 'Fatigue_Score', 1, 10); handleInputChange()">
+                    <div id="pill-Fatigue_Score" class="floating-thumb-pill" style="left: 44%;">Fatigue 5/10</div>
+                  </div>
+                  <div class="slider-zones-legend">
+                    <span style="color: var(--color-low);">Fresh (1–3)</span>
+                    <span style="color: var(--color-moderate);">Normal Load (4–6)</span>
+                    <span style="color: var(--color-high);">Severe Exhaustion (&ge;7)</span>
+                  </div>
+                </div>
+
+                <div class="tactile-slider-group" id="group-ACL_Risk_Score">
+                  <div class="tactile-slider-header">
+                    <span class="tactile-label">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="3"/><path d="M3 12h3m12 0h3"/></svg>
+                      ACL / Knee Joint Risk Score
+                    </span>
+                    <span id="badge-acl" class="tactile-pill-val">45 / 100</span>
+                  </div>
+                  <div class="stage-quick-pills" style="margin-bottom: 0.6rem;">
+                    <button type="button" class="stage-chip-btn" onclick="selectACLPreset(20, this)">🛡️ Stable Kinetic Chain (20)</button>
+                    <button type="button" class="stage-chip-btn active" onclick="selectACLPreset(45, this)">⚠️ Moderate Laxity (45)</button>
+                    <button type="button" class="stage-chip-btn" onclick="selectACLPreset(75, this)">🚨 High Valgus Risk (75)</button>
+                  </div>
+                  <div class="tactile-slider-track-wrap">
+                    <div class="safety-corridor-bar"></div>
+                    <div id="fill-ACL_Risk_Score" class="active-load-fill" style="width: 45%;"></div>
+                    <input type="range" id="inp-ACL_Risk_Score" class="custom-tactile-range" min="0" max="100" step="1" value="45" oninput="updateTactilePill('acl', this.value, '/100', 'ACL_Risk_Score', 0, 100); handleInputChange()">
+                    <div id="pill-ACL_Risk_Score" class="floating-thumb-pill" style="left: 45%;">45 / 100</div>
+                  </div>
+                  <div class="slider-zones-legend">
+                    <span style="color: var(--color-low);">Stable Kinetic Chain (&lt;40)</span>
+                    <span style="color: var(--color-moderate);">Moderate Laxity (40–60)</span>
+                    <span style="color: var(--color-high);">High Valgus Risk (&gt;60)</span>
+                  </div>
+                </div>
+
+                <div class="tactile-slider-group" id="group-Load_Balance_Score">
+                  <div class="tactile-slider-header">
+                    <span class="tactile-label">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 3v18M18 3v18M2 12h20"/></svg>
+                      Bilateral Load Balance Score
+                    </span>
+                    <span id="badge-balance" class="tactile-pill-val">98 / 100</span>
+                  </div>
+                  <div class="stage-quick-pills" style="margin-bottom: 0.6rem;">
+                    <button type="button" class="stage-chip-btn active" onclick="selectBalancePreset(98, this)">⚖️ Symmetric Balance (98)</button>
+                    <button type="button" class="stage-chip-btn" onclick="selectBalancePreset(88, this)">⚠️ Minor Deviation (88)</button>
+                    <button type="button" class="stage-chip-btn" onclick="selectBalancePreset(72, this)">🚨 Asymmetry Deficit (72)</button>
+                  </div>
+                  <div class="tactile-slider-track-wrap">
+                    <div class="safety-corridor-bar" style="transform: scaleX(-1);"></div>
+                    <div id="fill-Load_Balance_Score" class="active-load-fill" style="width: 96%;"></div>
+                    <input type="range" id="inp-Load_Balance_Score" class="custom-tactile-range" min="40" max="100" step="1" value="98" oninput="updateTactilePill('balance', this.value, '/100', 'Load_Balance_Score', 40, 100); handleInputChange()">
+                    <div id="pill-Load_Balance_Score" class="floating-thumb-pill" style="left: 96%;">98 / 100</div>
+                  </div>
+                  <div class="slider-zones-legend">
+                    <span style="color: var(--color-high);">Asymmetry Deficit (&lt;80)</span>
+                    <span style="color: var(--color-moderate);">Minor Deviation (80–92)</span>
+                    <span style="color: var(--color-low);">Symmetric Balance (&gt;92)</span>
+                  </div>
+                </div>
+
+                <div class="wizard-footer">
+                  <button class="btn btn-secondary" onclick="switchStep(1)">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+                    Previous: Workload
+                  </button>
+                  <button class="btn btn-primary" onclick="switchStep(3)">
+                    Next: Wearables
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Step 3: Wearable Telemetry -->
+              <div id="step-3" class="form-section">
+                <div class="stage-inquiry-box">
+                  <div class="stage-inquiry-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                  </div>
+                  <div>
+                    <div class="stage-inquiry-title">Stage 3 • Wearable Cardiovascular & Physiological Vitals</div>
+                    <div class="stage-inquiry-desc">What do the live biometrics (heart rate, autonomic HRV variability, core temperature, and SpO2 oxygenation) register during recent efforts?</div>
+                  </div>
+                </div>
+
+                <div class="stage-pills-row">
+                  <span class="stage-pills-label">Physiological State Presets</span>
+                  <div class="stage-quick-pills">
+                    <button type="button" class="stage-chip-btn" onclick="selectBiometricsPreset('recovery', this)">💤 Sleep & Recovery (68 bpm • HRV 62)</button>
+                    <button type="button" class="stage-chip-btn active" onclick="selectBiometricsPreset('aerobic', this)">🏃 Aerobic Steady (120 bpm • HRV 35)</button>
+                    <button type="button" class="stage-chip-btn" onclick="selectBiometricsPreset('match', this)">🔥 Match Peak Strain (165 bpm • HRV 18)</button>
+                  </div>
+                </div>
+
+                <div class="inputs-grid">
+                  <div class="form-group">
+                    <label class="form-label" for="inp-Mean_HR">
+                      Mean Heart Rate (bpm)
+                      <span id="badge-hr-status" style="font-size: 0.72rem; color: var(--color-low); font-weight: 700;">Zone 2</span>
+                    </label>
+                    <input type="number" id="inp-Mean_HR" class="input-control" value="120.6" step="0.5" min="40" max="220" oninput="handleInputChange()">
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="inp-Std_HR">
+                      HRV / Std HR (bpm)
+                      <span id="badge-hrv-status" style="font-size: 0.72rem; color: var(--primary); font-weight: 700;">Normal Vagal</span>
+                    </label>
+                    <input type="number" id="inp-Std_HR" class="input-control" value="34.8" step="0.5" min="5" max="100" oninput="handleInputChange()">
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="inp-Mean_Temp">
+                      Core Temp (°C)
+                      <span id="badge-temp-status" style="font-size: 0.72rem; color: var(--color-low); font-weight: 700;">Normothermic</span>
+                    </label>
+                    <input type="number" id="inp-Mean_Temp" class="input-control" value="37.0" step="0.1" min="35" max="41" oninput="handleInputChange()">
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="inp-Mean_Oxygen">
+                      SpO2 Oxygen (%)
+                      <span id="badge-spo2-status" style="font-size: 0.72rem; color: var(--color-low); font-weight: 700;">Optimal (97%+)</span>
+                    </label>
+                    <input type="number" id="inp-Mean_Oxygen" class="input-control" value="97.4" step="0.5" min="80" max="100" oninput="handleInputChange()">
+                  </div>
+                </div>
+
+                <div class="wizard-footer">
+                  <button class="btn btn-secondary" onclick="switchStep(2)">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+                    Previous: Joint Screening
+                  </button>
+                  <button class="btn btn-primary" onclick="switchStep(4)">
+                    Next: IMU Sensors
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Step 4: IMU Biomechanics -->
+              <div id="step-4" class="form-section">
+                <div class="stage-inquiry-box">
+                  <div class="stage-inquiry-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                  </div>
+                  <div>
+                    <div class="stage-inquiry-title">Stage 4 • Inertial IMU Biomechanical Ground Shock</div>
+                    <div class="stage-inquiry-desc">What did tri-axial wearable accelerometers register during high-intensity foot strikes, cutting decels, and stride cadence?</div>
+                  </div>
+                </div>
+
+                <div class="stage-pills-row">
+                  <span class="stage-pills-label">Ground Impact Presets</span>
+                  <div class="stage-quick-pills">
+                    <button type="button" class="stage-chip-btn" onclick="selectImpactPreset('soft', this)">🌱 Soft Grass / Low Shock (3.2g)</button>
+                    <button type="button" class="stage-chip-btn active" onclick="selectImpactPreset('firm', this)">⚽ Firm Turf / Standard (4.6g)</button>
+                    <button type="button" class="stage-chip-btn" onclick="selectImpactPreset('hard', this)">⚡ Hard Pitch / High Impact (6.8g)</button>
+                  </div>
+                </div>
+
+                <div class="inputs-grid">
+                  <div class="form-group" id="group-IMU_Peak_Impact">
+                    <label class="form-label" for="inp-IMU_Peak_Impact">
+                      Peak Ground Shock (g)
+                      <span id="badge-impact-status" style="font-size: 0.72rem; color: var(--color-low); font-weight: 700;">Safe (&lt;5.5g)</span>
+                    </label>
+                    <input type="number" id="inp-IMU_Peak_Impact" class="input-control" value="4.61" step="0.1" min="1.0" max="15.0" oninput="handleInputChange()">
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="inp-IMU_Cadence">
+                      Cadence (spm)
+                      <span id="badge-cadence-status" style="font-size: 0.72rem; color: var(--text-subtle); font-weight: 700;">Optimal Stride</span>
+                    </label>
+                    <input type="number" id="inp-IMU_Cadence" class="input-control" value="99.7" step="0.5" min="60" max="180" oninput="handleInputChange()">
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="inp-IMU_SMA">
+                      Signal Magnitude (SMA)
+                      <span style="font-size: 0.72rem; color: var(--text-subtle);">Normalized</span>
+                    </label>
+                    <input type="number" id="inp-IMU_SMA" class="input-control" value="1.32" step="0.05" min="0.1" max="5.0" oninput="handleInputChange()">
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="inp-IMU_Acc_Variance">
+                      Acc Variance (g²)
+                      <span style="font-size: 0.72rem; color: var(--text-subtle);">Tri-Axial</span>
+                    </label>
+                    <input type="number" id="inp-IMU_Acc_Variance" class="input-control" value="0.37" step="0.02" min="0.01" max="2.0" oninput="handleInputChange()">
+                  </div>
+                </div>
+
+                <div class="wizard-footer">
+                  <button class="btn btn-secondary" onclick="switchStep(3)">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+                    Previous: Wearables
+                  </button>
+                  <button id="btn-recalculate-main" class="btn btn-primary" onclick="triggerManualRecalculation(this)">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+                    Recalculate Diagnostics
+                  </button>
+                </div>
+              </div>
+        </div>
+      </section>
+
+      <!-- RIGHT: Tachometer Risk Hero & Explainability -->
+      <section class="glass-card" aria-label="Risk Dashboard">
+        <!-- 3D Tachometer Hero -->
+        <div class="tachometer-hero">
+          <div class="dial-container">
+            <svg class="dial-svg" viewBox="0 0 200 200">
+              <defs>
+                <linearGradient id="gauge-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#059669" />
+                  <stop offset="35%" stop-color="#10B981" />
+                  <stop offset="65%" stop-color="#F59E0B" />
+                  <stop offset="100%" stop-color="#EF4444" />
+                </linearGradient>
+              </defs>
+              <!-- Outer Track Background -->
+              <circle class="dial-track-bg" cx="100" cy="100" r="75"></circle>
+              <!-- Precision Tachometer Segmented Ticks -->
+              <circle class="dial-ticks" cx="100" cy="100" r="75"></circle>
+              <!-- Precision Color Zone Bands: Low (0-25%), Moderate (25-40%), Acute Deload (>40%) -->
+              <circle class="dial-zone-low" cx="100" cy="100" r="75"></circle>
+              <circle class="dial-zone-mod" cx="100" cy="100" r="75"></circle>
+              <circle class="dial-zone-high" cx="100" cy="100" r="75"></circle>
+              <!-- Progressive Gradient Active Stroke -->
+              <circle id="gauge-circle" class="dial-progress-arc" cx="100" cy="100" r="75" stroke="url(#gauge-gradient)"></circle>
+            </svg>
+            <div class="dial-center-content">
+              <div id="dial-gem" class="dial-gem"></div>
+              <div class="dial-val">
+                <span id="risk-score-num">12</span><span style="font-size: 1.15rem; color: var(--text-subtle);">%</span>
+              </div>
+              <span style="font-size: 0.68rem; font-weight: 800; text-transform: uppercase; color: var(--text-subtle); letter-spacing: 0.05em;">
+                Acute Probability
+              </span>
+              <span id="dial-zone-tag" class="dial-zone-tag">LOW &lt;25%</span>
+            </div>
+          </div>
+
+          <div id="triage-badge" class="triage-badge badge-low">
+            <span id="triage-badge-text">Low Risk (Cleared)</span>
+          </div>
+          <p id="triage-description" style="font-size: 0.8rem; color: var(--text-muted); max-width: 320px; margin: 0 auto;">
+            Athlete is within optimal chronic adaptation zone. High neuromuscular balance with adequate recovery buffers.
+          </p>
+        </div>
+
+        <!-- Metrics Strip -->
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; padding: 1rem 1.5rem; background: var(--bg-subtle); border-bottom: 1px solid var(--glass-border);">
+          <div class="metric-box">
+            <div class="metric-title">ACWR</div>
+            <div id="metric-acwr" class="metric-val">1.07</div>
+            <div id="metric-acwr-sub" class="metric-sub" style="color: var(--color-low);">Optimal (0.8–1.3)</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-title">Weekly Load</div>
+            <div id="metric-load" class="metric-val">57.4</div>
+            <div class="metric-sub">AU Load Volume</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-title">Recovery Deficit</div>
+            <div id="metric-deficit" class="metric-val">1.67</div>
+            <div class="metric-sub">Fatigue / (Rest + 1)</div>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <!-- SHAP Diverging Waterfall Ledger -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem;">
+            <h3 class="card-title" style="font-size: 0.95rem;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+              SHAP Force Attribution Ledger
+            </h3>
+            <span style="font-size: 0.72rem; color: var(--text-subtle);">Centered at baseline log-odds</span>
+          </div>
+
+          <div class="shap-ledger-box">
+            <div style="display: flex; justify-content: space-between; font-size: 0.74rem; font-weight: 700; color: var(--text-subtle); margin-bottom: 0.6rem;">
+              <span>← Protective Buffers</span>
+              <span>Baseline</span>
+              <span>Risk Drivers →</span>
+            </div>
+            <div id="waterfall-rows">
+              <!-- Dynamically populated waterfall bars -->
+            </div>
+          </div>
+
+          <!-- 6-Axis Spider / Radar Diagram -->
+          <h3 class="card-title" style="font-size: 0.95rem; margin-top: 1.25rem; margin-bottom: 0.5rem;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--accent-teal)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            Readiness Radar vs Squad Elite
+          </h3>
+          <div style="display: flex; justify-content: center;">
+            <canvas id="radar-canvas" width="340" height="260" style="max-width: 100%;"></canvas>
+          </div>
+
+          <!-- Prescriptions -->
+          <h3 class="card-title" style="font-size: 0.95rem; margin-top: 1.25rem; margin-bottom: 0.75rem;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--color-moderate)" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+            Clinical Load Prescriptions
+          </h3>
+          <div id="recs-container" class="recs-container">
+            <!-- Dynamically populated -->
+          </div>
+
+          <div style="margin-top: 1.5rem;">
+            <button class="btn btn-secondary" onclick="openReportModal()" style="width: 100%; justify-content: center;">
+              Export Medical Report Dossier
+            </button>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- =====================================================================
+         WORKSPACE 2: INTERACTIVE "WHAT-IF" SIMULATOR & 2D SCATTER MATRIX
+         ===================================================================== -->
+    <div id="view-simulator" class="simulator-view">
+      <section class="glass-card">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+              What-If Counterfactual Load Matrix & Trajectory Vector
+            </h2>
+            <div style="font-size: 0.78rem; color: var(--text-subtle);">Simulate load adjustments and see live trajectory into the Supercompensation Sweet Spot.</div>
+          </div>
+          <button class="btn btn-outline" onclick="syncSimulatorWithCurrent()">
+            Sync With Current Baseline
+          </button>
+        </div>
+
+        <div class="card-body">
+          <div class="simulator-grid">
+            <!-- Left: Tactile Sliders -->
+            <div>
+              <div class="sim-slider-card">
+                <div class="sim-header">
+                  <span class="sim-title">Weekly Training Hours</span>
+                  <span id="sim-hours-val" class="sim-val">11 hrs</span>
+                </div>
+                <input type="range" id="sim-slider-hours" class="custom-tactile-range" min="2" max="25" step="0.5" value="11" oninput="runSimulation()">
+              </div>
+
+              <div class="sim-slider-card">
+                <div class="sim-header">
+                  <span class="sim-title">Recovery Days / Week</span>
+                  <span id="sim-recovery-val" class="sim-val">2 days</span>
+                </div>
+                <input type="range" id="sim-slider-recovery" class="custom-tactile-range" min="0" max="5" step="1" value="2" oninput="runSimulation()">
+              </div>
+
+              <div class="sim-slider-card">
+                <div class="sim-header">
+                  <span class="sim-title">Training Intensity (RPE)</span>
+                  <span id="sim-intensity-val" class="sim-val">5 / 10</span>
+                </div>
+                <input type="range" id="sim-slider-intensity" class="custom-tactile-range" min="1" max="10" step="1" value="5" oninput="runSimulation()">
+              </div>
+
+              <div class="sim-slider-card">
+                <div class="sim-header">
+                  <span class="sim-title">Fatigue Level</span>
+                  <span id="sim-fatigue-val" class="sim-val">5 / 10</span>
+                </div>
+                <input type="range" id="sim-slider-fatigue" class="custom-tactile-range" min="1" max="10" step="1" value="5" oninput="runSimulation()">
+              </div>
+            </div>
+
+            <!-- Right: 2D Quad-Matrix with Vector Arrow -->
+            <div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                <span style="font-size: 0.8rem; font-weight: 800; text-transform: uppercase; color: var(--text-subtle);">
+                  2D Fatigue vs Adaptation Matrix
+                </span>
+                <span id="sim-delta-badge" class="delta-pill good">Baseline Match</span>
+              </div>
+
+              <div class="matrix-container" id="scatter-matrix-box">
+                <div class="matrix-quadrant quad-danger">
+                  <span>Dangerous Overload</span>
+                  <span style="font-size: 0.62rem; font-weight: 600; opacity: 0.85;">High Fatigue &bull; Low Reserve</span>
+                </div>
+                <div class="matrix-quadrant quad-sweetspot">
+                  <span>Supercompensation (Sweet Spot)</span>
+                  <span style="font-size: 0.62rem; font-weight: 600; opacity: 0.85;">High Tolerance &bull; Peak Readiness</span>
+                </div>
+                <div class="matrix-quadrant quad-recovery">
+                  <span>Restoration / Recovery</span>
+                  <span style="font-size: 0.62rem; font-weight: 600; opacity: 0.85;">Active Deload &bull; Recharging</span>
+                </div>
+                <div class="matrix-quadrant quad-undertraining">
+                  <span>Under-Conditioning</span>
+                  <span style="font-size: 0.62rem; font-weight: 600; opacity: 0.85;">Low Stimulus &bull; Atrophy Risk</span>
+                </div>
+
+                <div class="matrix-axis-line-x"></div>
+                <div class="matrix-axis-line-y"></div>
+                <div class="matrix-axis-label-x">Accumulated Acute Fatigue &rarr;</div>
+                <div class="matrix-axis-label-y">Chronic Adaptive Buffer &rarr;</div>
+
+                <!-- Vector trajectory line with directed arrow marker -->
+                <svg id="matrix-vector-svg" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5;">
+                  <defs>
+                    <marker id="matrix-arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#0284C7"/>
+                    </marker>
+                  </defs>
+                  <line id="matrix-vector-line" x1="0" y1="0" x2="0" y2="0" stroke="var(--primary)" stroke-width="2.8" stroke-dasharray="5,4" marker-end="url(#matrix-arrow)" />
+                </svg>
+
+                <div id="matrix-node-current" class="matrix-athlete-node" style="left: 55%; top: 48%;" title="Current Baseline Coordinate"></div>
+                <div id="matrix-node-simulated" class="matrix-athlete-node" style="left: 55%; top: 48%;" title="Simulated Target Coordinate"></div>
+              </div>
+
+              <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-top: 1rem; text-align: center;">
+                <div class="metric-box">
+                  <div class="metric-title">Simulated Risk</div>
+                  <div id="sim-result-risk" class="metric-val" style="color: var(--color-low);">12%</div>
+                </div>
+                <div class="metric-box">
+                  <div class="metric-title">Simulated ACWR</div>
+                  <div id="sim-result-acwr" class="metric-val">1.07</div>
+                </div>
+                <div class="metric-box">
+                  <div class="metric-title">Days Saved</div>
+                  <div id="sim-result-days-saved" class="metric-val" style="color: var(--primary);">+0 d</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- =====================================================================
+         WORKSPACE 3: OSCILLOSCOPE WAVEFORM STUDIO
+         ===================================================================== -->
+    <div id="view-waveform" class="waveform-view">
+      <section class="glass-card">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              High-Precision Oscilloscope & Telemetry Scope
+            </h2>
+            <div style="font-size: 0.78rem; color: var(--text-subtle);">Interactive telemetry cursor: hover to inspect microsecond shock spikes.</div>
+          </div>
+          <div style="display: flex; gap: 0.5rem;">
+            <button id="btn-play-stream" class="btn btn-primary" onclick="toggleStreamSimulation()">
+              ▶ Replay Sensor Stream
+            </button>
+            <button class="btn btn-secondary" onclick="loadSampleWaveform('imu')">Reload 50Hz IMU</button>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <div class="oscilloscope-screen" id="oscilloscope-box" onmousemove="handleOscilloscopeHover(event)" onmouseleave="hideOscilloscopeScanline()">
+            <canvas id="imu-waveform-canvas" width="1100" height="270" style="width: 100%; height: 100%;"></canvas>
+            <div id="oscilloscope-scanline" class="oscilloscope-scanline"></div>
+            <div id="oscilloscope-hud" class="oscilloscope-hud">
+              FREQ: 50.0Hz | PEAK: 4.61G | STATUS: LIVE STREAM
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 1.5rem; margin-top: 0.85rem; font-size: 0.78rem; font-weight: 700; flex-wrap: wrap;">
+            <span><span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #38BDF8; margin-right: 4px;"></span> Acc X</span>
+            <span><span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #A78BFA; margin-right: 4px;"></span> Acc Y</span>
+            <span><span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #34D399; margin-right: 4px;"></span> Acc Z</span>
+            <span><span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #FBBF24; margin-right: 4px;"></span> Butterworth Envelope</span>
+            <span><span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #EF4444; margin-right: 4px;"></span> Ground Impact Peaks (>4.5g)</span>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- =====================================================================
+         WORKSPACE 4: STADIUM-GRADE TACTICAL PITCH WITH FORMATIONS
+         ===================================================================== -->
+    <div id="view-pitch" class="pitch-view">
+      <section class="glass-card">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="12" x2="21" y2="12"/><circle cx="12" cy="12" r="3"/></svg>
+              Tactical Squad Pitch & Position Fatigue Whiteboard
+            </h2>
+            <div style="font-size: 0.78rem; color: var(--text-subtle);">Click any player card to inspect biomechanical readiness without leaving the whiteboard.</div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <label style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted);" for="formation-dropdown">Tactical Formation:</label>
+            <select id="formation-dropdown" class="formation-select" onchange="changeTacticalFormation(this.value)">
+              <option value="4-3-3">4-3-3 Attacking</option>
+              <option value="4-2-3-1">4-2-3-1 Balanced Double Pivot</option>
+              <option value="3-5-2">3-5-2 High Wingbacks</option>
+              <option value="5-out">Basketball 5-Out Spread</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <div class="stadium-pitch" id="tactical-pitch-field">
+            <!-- Professional Pitch Line Markings SVG -->
+            <svg class="pitch-lines-svg" viewBox="0 0 1000 600" preserveAspectRatio="none">
+              <!-- Touchlines & Goal lines -->
+              <rect x="25" y="25" width="950" height="550" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="2.5" />
+              <!-- Halfway line -->
+              <line x1="500" y1="25" x2="500" y2="575" stroke="rgba(255,255,255,0.7)" stroke-width="2.5" />
+              <!-- Center circle -->
+              <circle cx="500" cy="300" r="75" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="2.5" />
+              <circle cx="500" cy="300" r="4" fill="rgba(255,255,255,0.85)" />
+              <!-- Left Penalty Area -->
+              <rect x="25" y="145" width="165" height="310" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="2.5" />
+              <!-- Left Goal Area -->
+              <rect x="25" y="215" width="55" height="170" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="2.5" />
+              <!-- Left Penalty Arc -->
+              <path d="M 190 250 A 75 75 0 0 1 190 350" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="2.5" />
+              <!-- Right Penalty Area -->
+              <rect x="810" y="145" width="165" height="310" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="2.5" />
+              <!-- Right Goal Area -->
+              <rect x="920" y="215" width="55" height="170" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="2.5" />
+              <!-- Right Penalty Arc -->
+              <path d="M 810 250 A 75 75 0 0 0 810 350" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="2.5" />
+              <!-- Corner Arcs -->
+              <path d="M 25 45 A 20 20 0 0 0 45 25" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="2" />
+              <path d="M 25 555 A 20 20 0 0 1 45 575" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="2" />
+              <path d="M 975 45 A 20 20 0 0 1 955 25" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="2" />
+              <path d="M 975 555 A 20 20 0 0 0 955 575" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="2" />
+            </svg>
+            <div id="tactical-pitch-tokens" style="position: absolute; inset: 0; pointer-events: auto;">
+              <!-- Dynamically populated luxury player cards -->
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Slide-out side drawer for Pitch deep dive -->
+    <div id="pitch-drawer-backdrop" class="pitch-drawer-backdrop" onclick="closePitchDrawer()"></div>
+    <div id="pitch-athlete-drawer" class="pitch-drawer">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--glass-border); padding-bottom: 1rem; margin-bottom: 1.25rem;">
+        <div>
+          <h3 id="drawer-player-name" style="font-size: 1.25rem; font-weight: 800; color: var(--text-main);">Darwin Nunez (ST)</h3>
+          <span id="drawer-player-pos" style="font-size: 0.78rem; color: var(--text-subtle);">Center Forward • Squad #9</span>
+        </div>
+        <button class="btn btn-outline" onclick="closePitchDrawer()" style="padding: 0.3rem 0.6rem;">✕</button>
+      </div>
+
+      <div id="drawer-content">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+
+    <!-- =====================================================================
+         WORKSPACE 5: MICRO-CYCLE ACWR TRACKER & HISTORY
+         ===================================================================== -->
+    <div id="view-history" class="history-view">
+      <section class="glass-card">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Micro-Cycle ACWR Progression & Longitudinal History
+            </h2>
+            <div style="font-size: 0.78rem; color: var(--text-subtle);">Track workload adaptation across a 6-week training block to prevent chronic fitness erosion.</div>
+          </div>
+          <button class="btn btn-primary" onclick="logCurrentWeekSession()">
+            + Log Current Week into History
+          </button>
+        </div>
+
+        <div class="card-body">
+          <div style="background: #FFFFFF; border: 1px solid var(--glass-border); border-radius: var(--radius-lg); padding: 1.5rem; margin-bottom: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+              <h3 style="font-size: 0.95rem; font-weight: 800; color: var(--text-main);">Acute vs Chronic Workload Ratio (ACWR) Progression Curve</h3>
+              <div style="font-size: 0.78rem;">
+                <span style="color: var(--color-low); font-weight: 700;">■ Sweet Spot Corridor (0.8–1.3)</span> | 
+                <span style="color: var(--color-high); font-weight: 700;">■ Danger Spike (&gt;1.35)</span>
+              </div>
+            </div>
+
+            <div style="height: 260px; width: 100%;">
+              <canvas id="acwr-trend-canvas" width="1000" height="260" style="width: 100%; height: 100%;"></canvas>
+            </div>
+          </div>
+
+          <!-- Micro-Cycle Weekly Log Table -->
+          <div class="batch-table-container">
+            <table class="batch-table">
+              <thead>
+                <tr>
+                  <th>Micro-Cycle Week</th>
+                  <th>Weekly Acute Load (AU)</th>
+                  <th>Chronic Fitness Base (AU)</th>
+                  <th>ACWR Ratio</th>
+                  <th>Fatigue</th>
+                  <th>Acute Risk Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="history-table-body">
+                <!-- Dynamically populated from localStorage -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- =====================================================================
+         WORKSPACE 6: CSV INGESTION & BATCH
+         ===================================================================== -->
+    <div id="view-csv" class="upload-view">
+      <section class="glass-card">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              Multimodal CSV Ingestion & Batch Triage
+            </h2>
+            <div style="font-size: 0.78rem; color: var(--text-subtle);">Auto-detects Athlete Rosters, Wearable Sessions, or 50Hz IMU Timeseries files.</div>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <div id="csv-dropzone" class="dropzone-wrapper" onclick="document.getElementById('csv-file-input').click()">
+            <input type="file" id="csv-file-input" accept=".csv" style="display: none;" onchange="handleFileSelect(event)">
+            <div class="dropzone-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><polyline points="9 15 12 12 15 15"/></svg>
+            </div>
+            <h3 class="dropzone-title">Drag & Drop CSV File Here or Browse</h3>
+            <p class="dropzone-subtitle">Accepts full team rosters, telemetry timeseries, or raw accelerometer CSVs.</p>
+            
+            <div class="samples-strip" onclick="event.stopPropagation()">
+              <a href="samples/sample_athlete_roster.csv" download class="sample-link">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Download Sample Roster CSV
+              </a>
+              <a href="samples/sample_wearable_telemetry.csv" download class="sample-link">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Download Sample Wearable CSV
+              </a>
+              <a href="samples/sample_devicemotion_imu.csv" download class="sample-link">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Download Sample 50Hz IMU CSV
+              </a>
+            </div>
+          </div>
+
+          <div id="csv-status-banner" style="display: none; padding: 0.85rem 1rem; border-radius: var(--radius-md); margin-bottom: 1rem; font-size: 0.85rem; font-weight: 600;"></div>
+
+          <div id="batch-results-area" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+              <h3 style="font-size: 1rem; font-weight: 700; color: var(--text-main);">Team Roster Risk Triage Overview</h3>
+              <div style="display: flex; gap: 0.5rem;">
+                <input type="text" id="roster-search" placeholder="Search athlete..." class="input-control" style="padding: 0.4rem 0.75rem; font-size: 0.8rem;" oninput="filterRosterTable()">
+                <select id="roster-filter" class="input-control" style="padding: 0.4rem 0.75rem; font-size: 0.8rem;" onchange="filterRosterTable()">
+                  <option value="ALL">All Risk Levels</option>
+                  <option value="HIGH">High Risk Only</option>
+                  <option value="MODERATE">Moderate Risk</option>
+                  <option value="LOW">Low Risk</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="batch-table-container">
+              <table class="batch-table">
+                <thead>
+                  <tr>
+                    <th>Athlete ID</th>
+                    <th>Position</th>
+                    <th>Acute Risk (Model B)</th>
+                    <th>Seasonal Risk (Model A)</th>
+                    <th>Downtime (Model C)</th>
+                    <th>Triage</th>
+                    <th>ACWR</th>
+                    <th>Top Risk Driver</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="batch-table-body">
+                  <!-- Populated via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+  </main>
+
+  <!-- Printable Clinical Dossier Modal -->
+  <div id="report-modal" class="modal-overlay" onclick="closeReportModal(event)">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div>
+          <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-main);">ATHLETESHIELD CLINICAL REPORT</h3>
+          <span style="font-size: 0.74rem; color: var(--text-subtle);">Premier Sports Medicine & Performance Analytics Unit</span>
+        </div>
+        <button class="btn btn-outline" onclick="closeReportModal()" style="padding: 0.3rem 0.6rem;">✕</button>
+      </div>
+      <div id="report-modal-content" class="modal-body">
+        <!-- Rendered dynamically -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeReportModal()">Close</button>
+        <button class="btn btn-primary" onclick="window.print()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+          Print / Save Official PDF
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="feature_engineering.js"></script>
+  <script src="model_inference.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

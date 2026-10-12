@@ -13,6 +13,7 @@ __pycache__/
 env/
 venv/
 
-# OS Specific
+# OS Specific & Temp Files
 .DS_Store
 Thumbs.db
+~$*

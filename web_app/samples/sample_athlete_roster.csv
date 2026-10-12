@@ -1,0 +1,16 @@
+Athlete_ID,Age,Gender,Height_cm,Weight_kg,Position,Training_Intensity,Training_Hours_Per_Week,Recovery_Days_Per_Week,Match_Count_Per_Week,Rest_Between_Events_Days,Fatigue_Score,Performance_Score,Team_Contribution_Score,Load_Balance_Score,ACL_Risk_Score,Injury_Indicator
+A001,24,Female,195,99,Center,2,13,2,3,1,1,99,58,100,4,0
+A002,21,Male,192,65,Forward,8,14,1,3,1,4,55,63,83,73,0
+A003,22,Male,163,83,Guard,8,8,2,1,3,6,58,62,100,62,0
+A004,24,Female,192,90,Guard,1,13,1,1,1,7,82,74,78,51,0
+A005,20,Female,173,79,Center,3,9,1,2,1,2,90,51,83,49,0
+A006,22,Female,180,75,Guard,9,14,3,4,1,6,74,84,99,54,0
+A007,22,Female,179,90,Forward,5,13,1,4,2,7,97,56,78,84,1
+A008,24,Female,167,64,Center,6,7,2,3,3,2,62,70,100,42,0
+A009,19,Female,166,91,Guard,4,19,2,3,3,2,58,67,80,50,0
+A010,20,Female,162,63,Center,2,8,3,3,2,7,62,52,100,35,0
+A011,24,Female,176,78,Guard,8,13,2,2,3,1,80,91,84,35,0
+A012,20,Male,192,89,Guard,6,14,2,4,1,8,90,88,95,57,0
+A013,20,Female,171,89,Guard,5,15,2,1,3,3,60,90,89,55,0
+A014,22,Female,181,90,Forward,9,10,1,2,1,6,53,98,87,72,0
+A015,21,Male,181,72,Forward,1,6,1,1,2,9,83,60,88,74,0
